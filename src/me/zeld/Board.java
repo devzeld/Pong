@@ -6,60 +6,42 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Board extends JFrame{
-    public final int SCREEN_HEIGHT = 300;
-    public final int SCREEN_WIDTH = 480;
-    private Image image;
-    private Graphics graphics;
-    private final PongBall pong = new PongBall(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 20,Color.BLACK,20);
-    private final Racket rackets = new Racket(this, 20,100, Color.LIGHT_GRAY, 80, false);
+    public final int SCREEN_HEIGHT = 500;
+    public final int SCREEN_WIDTH = 630;
+    private final PongBall pong = new PongBall(this,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 20,20);
+    private final Racket racket1 = new Racket(this, 20, 10, 100);
+    private final Racket racket2 = new Racket(this, 20, 10, 100,true);
     Board(){
         setTitle("Pong");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
-        setSize(480, 300);
-        setVisible(true);
-        setLocation(SCREEN_WIDTH, SCREEN_HEIGHT);
-        setBackground(new Color(1f,1f,1f,.5f ));
 
+        setLayout(null);
+        setLocation(500, 100);
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         addKeyListener(new RacketsMovements());
+        setBackground(new Color(1f,1f,1f,.3f));
 
-        for (int i = 0; i < 5; i++) {
-            add(getMidScreenPanels());
-        }
-
+        setVisible(true);
+        pack();
     }
 
-    public JPanel getMidScreenPanels(){
-        JPanel jp = new JPanel();
-        jp.setBackground(Color.LIGHT_GRAY);
-        jp.setLocation(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-        jp.setSize(20, SCREEN_HEIGHT / 5 - 10);
-
-        return jp;
-    }
-    public void paint(Graphics g){
-        image = createImage(this.getWidth(), this.getHeight());
-        graphics = image.getGraphics();
-        g.drawImage(image, 0, 0, this);
-
-        rackets.draw(g);
-        pong.draw(g);
-    }
     public void checkCollision() {
-        if(pong.intersects(rackets)){
-            rackets.draw(graphics);
+        Rectangle rec1Racket = racket1.getBounds();
+        Rectangle rec2Racket = racket2.getBounds();
+        Rectangle pongRacket = pong.getBounds();
+        if(rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket)) {
+            System.out.println(true);
         }
-
     }
 
     public class RacketsMovements extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e) {
-            rackets.keyPressed(e);
+            racket1.keyPressed(e);
+            racket2.keyPressed(e);
             checkCollision();
-            repaint();
         }
     }
 }

@@ -1,72 +1,94 @@
 package me.zeld;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Racket extends Rectangle implements KeyListener {
-    public final Color COLOR;
-    public int XPOS;
-    public int YPOS;
-    public final int SIZE;
-    private final boolean SINGLE_PLAYER;
-    private final int SCREEN_WIDTH;
-    Racket(Board b, int xPos, int yPos, Color color, int size, boolean singlePlayer){
-        COLOR = color;
+public class Racket extends JPanel implements KeyListener {
+    private final int XPOS;
+    private int YPOS;
+    private final int YSIZE;
+    private final int XSIZE;
+    private int YPOS_SECOND_PLAYER;
+    private int XPOS_SECOND_PLAYER = 0;
+    private final Board B;
+    private final boolean OTHER_PLAYER;
+    Racket(Board b, int xPos, int xSize, int ySize, boolean otherPlayer){
+        B = b;
+        YSIZE = ySize;
+        XSIZE = xSize;
         XPOS = xPos;
-        YPOS = yPos;
-        SIZE = size;
-        SCREEN_WIDTH = b.SCREEN_WIDTH;
-        SINGLE_PLAYER = singlePlayer;
+        YPOS = (B.SCREEN_HEIGHT / 2) - (YSIZE / 2);
+        YPOS_SECOND_PLAYER = YPOS;
+        XPOS_SECOND_PLAYER = B.SCREEN_WIDTH - XPOS - XSIZE;
+        OTHER_PLAYER = otherPlayer;
 
+        setBackground(new Color(0xC5C53A));
+        addRackets();
+    }
 
+    Racket(Board b, int xPos, int xSize, int ySize){
+        B = b;
+        YSIZE = ySize;
+        XSIZE = xSize;
+        XPOS = xPos;
+        YPOS = (B.SCREEN_HEIGHT / 2) - (YSIZE / 2);
+        YPOS_SECOND_PLAYER = YPOS;
+        OTHER_PLAYER = false;
+
+        setBackground(new Color(0xC5C53A));
+        addRackets();
+    }
+
+    public void addRackets(){
+        if(OTHER_PLAYER) {
+            setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
+        }else{
+            setLocation(XPOS, YPOS);
+        }
+        setSize(XSIZE,YSIZE);
+        B.add(this);
+    }
+    private void moveUp(){
+        YPOS -= 10;
+        setLocation(XPOS,YPOS);
+    }
+    private void moveDown(){
+        YPOS += 10;
+        setLocation(XPOS,YPOS);
+    }
+    private void moveUpSecondPlayer(){
+        YPOS_SECOND_PLAYER -= 10;
+        setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
+    }
+    private void moveDownSecondPlayer(){
+        YPOS_SECOND_PLAYER += 10;
+        setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
-        if(SINGLE_PLAYER) {
-            if (e.getKeyCode() == KeyEvent.VK_UP) {
-                YPOS -= 15;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                YPOS += 15;
-            }
-        }else {
-            if(e.getKeyCode() == KeyEvent.VK_UP){
-                YPOS -= 15;
-            }
-            if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-                YPOS += 15;
-            }
-            if(e.getKeyCode() == KeyEvent.VK_W){
-                YPOS -= 15;
-            }
-            if(e.getKeyCode() == KeyEvent.VK_S) {
-                YPOS += 15;
+        if((YPOS >= 0 && YPOS <= B.SCREEN_HEIGHT - YSIZE) && (YPOS_SECOND_PLAYER >= 0 && YPOS_SECOND_PLAYER <= B.SCREEN_HEIGHT - YSIZE)) {
+            if(OTHER_PLAYER) {
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_W-> moveUpSecondPlayer();
+                    case KeyEvent.VK_S -> moveDownSecondPlayer();
+                }
+            }else {
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_UP -> moveUp();
+                    case KeyEvent.VK_DOWN -> moveDown();
+                }
             }
         }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
 
-    }
-
-    public void draw(Graphics g){
-        if(SINGLE_PLAYER) {
-            g.setColor(COLOR);
-            g.fillRect(XPOS,YPOS,10,SIZE);
-        }else{
-            g.setColor(COLOR);
-            g.fillRect(XPOS,YPOS,10,SIZE);
-
-            g.setColor(COLOR);
-            g.fillRect(SCREEN_WIDTH - XPOS - 10,YPOS,10,SIZE);
-        }
     }
 }

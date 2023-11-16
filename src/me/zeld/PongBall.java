@@ -1,22 +1,22 @@
 package me.zeld;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class PongBall extends JPanel {
-    private final int size;
-    private int sX = 0;
-    private int sY = 0;
-    private int sWidth = 1;
-    private int sHeight = 1;
-    private final int initialBounds = 50;
+public class PongBall extends Rectangle {
+    private final int SIZE;
+    public int XPOS;
+    public int YPOS;
+    public final Color COLOR;
+    PongBall(int xPos, int yPos, Color color, int size) {
+        this.SIZE = size;
+        this.XPOS = xPos;
+        this.YPOS = yPos;
+        this.COLOR = color;
+        setBounds(xPos, yPos, this.SIZE, this.SIZE);
+    }
 
-    PongBall(int size) {
-        this.size = size;
-        setBackground(Color.BLACK);
-        setBounds(initialBounds, initialBounds, this.size, this.size);
-        setVisible(true);
+    public void draw(Graphics g){
+        g.setColor(this.COLOR);
+        g.fillRect(this.XPOS,this.YPOS,this.SIZE,this.SIZE);
     }
 }

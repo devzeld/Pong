@@ -1,7 +1,10 @@
 package me.zeld;
+/*
+    Author: zeld
+*/
 
 public class Main{
     public static void main(String[] args) {
-        new Board(500,400);
+        new Board(700,400);
     }
 }

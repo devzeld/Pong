@@ -13,18 +13,16 @@ public class Racket extends JPanel implements KeyListener {
     private int YPOS_SECOND_PLAYER;
     private int XPOS_SECOND_PLAYER = 0;
     private final Board B;
-    private final boolean OTHER_PLAYER;
-    private final int SCREEN_HEIGHT;
-    Racket(Board b, int xPos, int xSize, int ySize, boolean otherPlayer){
+    private final boolean IS_PLAYER;
+    Racket(Board b, int xPos, int xSize, int ySize, boolean isPlayer){
         B = b;
-        SCREEN_HEIGHT = B.getSCREEN_HEIGHT();
         YSIZE = ySize;
         XSIZE = xSize;
         XPOS = xPos;
-        YPOS = (SCREEN_HEIGHT / 2) - (YSIZE / 2);
+        YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
         YPOS_SECOND_PLAYER = YPOS;
         XPOS_SECOND_PLAYER = B.getSCREEN_WIDTH() - XPOS - XSIZE;
-        OTHER_PLAYER = otherPlayer;
+        IS_PLAYER = isPlayer;
 
         setBackground(new Color(0xC5C53A));
         addRackets();
@@ -32,20 +30,19 @@ public class Racket extends JPanel implements KeyListener {
 
     Racket(Board b, int xPos, int xSize, int ySize){
         B = b;
-        SCREEN_HEIGHT = B.getSCREEN_HEIGHT();
         YSIZE = ySize;
         XSIZE = xSize;
         XPOS = xPos;
-        YPOS = (SCREEN_HEIGHT / 2) - (YSIZE / 2);
+        YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
         YPOS_SECOND_PLAYER = YPOS;
-        OTHER_PLAYER = false;
+        IS_PLAYER = false;
 
         setBackground(new Color(0xC5C53A));
         addRackets();
     }
 
     private void addRackets(){
-        if(OTHER_PLAYER) {
+        if(IS_PLAYER) {
             setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
         }else{
             setLocation(XPOS, YPOS);
@@ -71,7 +68,7 @@ public class Racket extends JPanel implements KeyListener {
     }
 
     private void moveOnlyUp(KeyEvent e){
-        if(OTHER_PLAYER) {
+        if(IS_PLAYER) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
                 moveUpSecondPlayer();
             }
@@ -82,7 +79,7 @@ public class Racket extends JPanel implements KeyListener {
         }
     }
     private void moveOnlyDown(KeyEvent e){
-        if(OTHER_PLAYER) {
+        if(IS_PLAYER) {
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 moveDownSecondPlayer();
             }
@@ -93,7 +90,7 @@ public class Racket extends JPanel implements KeyListener {
         }
     }
     private void moveGeneric(KeyEvent e){
-        if(OTHER_PLAYER) {
+        if(IS_PLAYER) {
             switch (e.getKeyCode()){
                 case KeyEvent.VK_W-> moveUpSecondPlayer();
                 case KeyEvent.VK_S -> moveDownSecondPlayer();
@@ -112,14 +109,13 @@ public class Racket extends JPanel implements KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!(YPOS == 0 || YPOS_SECOND_PLAYER == 0) && !(YPOS == SCREEN_HEIGHT - YSIZE || YPOS_SECOND_PLAYER == SCREEN_HEIGHT - YSIZE ) ) {
+        if (!(YPOS == 0 || YPOS_SECOND_PLAYER == 0) && !(YPOS == B.getSCREEN_HEIGHT() - YSIZE || YPOS_SECOND_PLAYER == B.getSCREEN_HEIGHT() - YSIZE ) ) {
             moveGeneric(e);
         }else if (YPOS == 0 || YPOS_SECOND_PLAYER == 0 ){
             moveOnlyDown(e);
-        }else if (YPOS == SCREEN_HEIGHT - YSIZE || YPOS_SECOND_PLAYER == SCREEN_HEIGHT - YSIZE){
+        }else if (YPOS == B.getSCREEN_HEIGHT() - YSIZE || YPOS_SECOND_PLAYER == B.getSCREEN_HEIGHT() - YSIZE){
             moveOnlyUp(e);
         }
-
     }
     @Override
     public void keyReleased(KeyEvent e) {

@@ -1,7 +1,7 @@
 package me.zeld;
 
-public class Main {
+public class Main{
     public static void main(String[] args) {
-        new Board();
+        new Board(500,400);
     }
 }

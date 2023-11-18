@@ -4,16 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PongBall extends JPanel {
-    public int XPOS;
-    public int YPOS;
-    public final Color COLOR;
-    PongBall(Board b, int xPos, int yPos, int size) {
-        XPOS = xPos;
-        YPOS = yPos;
-        COLOR = new Color(0x000020);
+    private int XPOS;
+    private int YPOS;
+    private final int SIZE;
+    private final Board B;
+
+    PongBall(Board b, int size) {
+        B = b;
+        SIZE = size;
+        Color COLOR = new Color(0x000020);
 
         setBackground(COLOR);
-        setBounds(XPOS,YPOS, size, size);
+        setToCenter();
+        setBounds(XPOS,YPOS, SIZE, SIZE);
         b.add(this);
+    }
+
+    private void setToCenter(){
+        XPOS = (B.getSCREEN_WIDTH() / 2) - SIZE;
+        YPOS = (B.getSCREEN_HEIGHT() / 2) - SIZE;
     }
 }

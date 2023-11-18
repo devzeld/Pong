@@ -50,55 +50,48 @@ public class Racket extends JPanel implements KeyListener {
         setSize(XSIZE,YSIZE);
         B.add(this);
     }
-    private void moveUp(){
-        YPOS -= 10;
+    private void move(boolean isUp){
+        YPOS += isUp ? -10 : 10;
         setLocation(XPOS,YPOS);
     }
-    private void moveDown(){
-        YPOS += 10;
-        setLocation(XPOS,YPOS);
-    }
-    private void moveUpSecondPlayer(){
-        YPOS_SECOND_PLAYER -= 10;
+    private void moveSecondPlayer(boolean isUp){
+        YPOS_SECOND_PLAYER += isUp ? -10 : 10;
         setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
     }
-    private void moveDownSecondPlayer(){
-        YPOS_SECOND_PLAYER += 10;
-        setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
-    }
+
 
     private void moveOnlyUp(KeyEvent e){
         if(IS_PLAYER) {
             if (e.getKeyCode() == KeyEvent.VK_W) {
-                moveUpSecondPlayer();
+                moveSecondPlayer(true);
             }
         }else {
             if (e.getKeyCode() == KeyEvent.VK_UP) {
-                moveUp();
+                move(true);
             }
         }
     }
     private void moveOnlyDown(KeyEvent e){
         if(IS_PLAYER) {
             if (e.getKeyCode() == KeyEvent.VK_S) {
-                moveDownSecondPlayer();
+                moveSecondPlayer(false);
             }
         }else {
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                moveDown();
+                move(false);
             }
         }
     }
     private void moveGeneric(KeyEvent e){
         if(IS_PLAYER) {
             switch (e.getKeyCode()){
-                case KeyEvent.VK_W-> moveUpSecondPlayer();
-                case KeyEvent.VK_S -> moveDownSecondPlayer();
+                case KeyEvent.VK_W-> moveSecondPlayer(true);
+                case KeyEvent.VK_S -> moveSecondPlayer(false);
             }
         }else {
             switch (e.getKeyCode()){
-                case KeyEvent.VK_UP -> moveUp();
-                case KeyEvent.VK_DOWN -> moveDown();
+                case KeyEvent.VK_UP -> move(true);
+                case KeyEvent.VK_DOWN -> move(false);
             }
         }
     }

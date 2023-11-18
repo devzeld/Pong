@@ -7,6 +7,7 @@ public class PongBall extends JPanel {
     private int XPOS;
     private int YPOS;
     private final int SIZE;
+    private final int BALL_SPEED = 5;
     private final Board B;
 
     PongBall(Board b, int size) {
@@ -24,4 +25,10 @@ public class PongBall extends JPanel {
         XPOS = (B.getSCREEN_WIDTH() / 2) - SIZE;
         YPOS = (B.getSCREEN_HEIGHT() / 2) - SIZE;
     }
+
+    private void startMoving(){
+
+    }
+
+
 }

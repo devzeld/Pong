@@ -16,7 +16,7 @@ public class Board extends JFrame{
         SCREEN_WIDTH = width;
         pong = new PongBall(this,20);
         racket1  = new Racket(this, 10, 10, SCREEN_HEIGHT / 5, true);
-        racket2 = new Racket(this, 10, 10, SCREEN_HEIGHT / 5);
+        racket2 = new Racket(this, 10, 10, SCREEN_HEIGHT / 5, false);
 
         setTitle("Pong");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

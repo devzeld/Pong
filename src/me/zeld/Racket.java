@@ -28,19 +28,6 @@ public class Racket extends JPanel implements KeyListener {
         addRackets();
     }
 
-    Racket(Board b, int xPos, int xSize, int ySize){
-        B = b;
-        YSIZE = ySize;
-        XSIZE = xSize;
-        XPOS = xPos;
-        YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
-        YPOS_SECOND_PLAYER = YPOS;
-        IS_PLAYER = false;
-
-        setBackground(new Color(0xC5C53A));
-        addRackets();
-    }
-
     private void addRackets(){
         if(IS_PLAYER) {
             setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);

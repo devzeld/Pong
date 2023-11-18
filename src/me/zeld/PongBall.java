@@ -32,26 +32,28 @@ public class PongBall extends JPanel {
 
     public void startMoving(){
         while(true){
-            getDirectionAndSpeed();
+            getDirectionAndSpeed(B.checkCollision());
             try {
-                TimeUnit.MILLISECONDS.sleep(25);
+                TimeUnit.MILLISECONDS.sleep(20);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    private void getDirectionAndSpeed(){
-        XPOS += (int) (Math.sin(DIRECTION/(360 * Math.PI)) * SPEED);
-        XPOS += (int) (Math.cos(DIRECTION/(360 * Math.PI)) * SPEED);
+    private void getDirectionAndSpeed(boolean rebound){
+        final double cos = Math.cos(DIRECTION / (360 * Math.PI)) * SPEED;
+        final double sin = Math.sin(DIRECTION / (360 * Math.PI)) * SPEED;
+
+
+
+        XPOS += rebound ? (int) sin + (int) cos : -((int) sin + (int) cos);
         setLocation(XPOS, YPOS);
 
 
-/*        if(YPOS > 0){
-            YPOS -= 10;
-        }
-        if(YPOS + SIZE < B.getSCREEN_HEIGHT()){
-            YPOS += 10;
-        }*/
+
+
+        /*YPOS += (int) sin;
+        YPOS += (int) cos;*/
     }
 }

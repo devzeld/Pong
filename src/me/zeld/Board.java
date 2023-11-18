@@ -16,8 +16,8 @@ public class Board extends JFrame{
         SCREEN_WIDTH = width;
 
         pong = new PongBall(this,20);
-        racket1  = new Racket(this, 10, 10, SCREEN_HEIGHT / 5, true);
-        racket2 = new Racket(this, 10, 10, SCREEN_HEIGHT / 5, false);
+        racket1  = new Racket(this, 10, true);
+        racket2 = new Racket(this, 10, false);
 
         setTitle("Pong");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,19 +36,12 @@ public class Board extends JFrame{
         pong.startMoving();
     }
 
-    private void checkCollision() {
+    public boolean checkCollision() {
         //Ball collides on one of the rackets
         Rectangle rec1Racket = racket1.getBounds();
         Rectangle rec2Racket = racket2.getBounds();
         Rectangle pongRacket = pong.getBounds();
-        if(rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket)) {
-            System.out.println(true);
-        }
-
-/*        Rectangle screenBorders = getBounds();
-        if(pongRacket.intersects(screenBorders)) {
-            System.out.println(true);
-        }*/
+        return rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket);
     }
 
     public int getSCREEN_HEIGHT() {

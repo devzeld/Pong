@@ -13,23 +13,23 @@ public class Racket extends JPanel implements KeyListener {
     private int YPOS_SECOND_PLAYER;
     private final int XPOS_SECOND_PLAYER;
     private final Board B;
-    private final boolean IS_PLAYER;
-    Racket(Board b, int xPos, int xSize, int ySize, boolean isPlayer){
+    private final boolean IS_OTHER_PLAYER;
+    Racket(Board b, int xPos, boolean thereIsAntherPlayer){
         B = b;
-        YSIZE = ySize;
-        XSIZE = xSize;
+        YSIZE = B.getSCREEN_HEIGHT() / 5;
+        XSIZE = 15;
         XPOS = xPos;
         YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
         YPOS_SECOND_PLAYER = YPOS;
         XPOS_SECOND_PLAYER = B.getSCREEN_WIDTH() - XPOS - XSIZE;
-        IS_PLAYER = isPlayer;
+        IS_OTHER_PLAYER = thereIsAntherPlayer;
 
         setBackground(new Color(0xC5C53A));
         addRackets();
     }
 
     private void addRackets(){
-        if(IS_PLAYER) {
+        if(IS_OTHER_PLAYER) {
             setLocation(XPOS, YPOS);
         }else{
             setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
@@ -68,7 +68,7 @@ public class Racket extends JPanel implements KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        if(IS_PLAYER) {
+        if(IS_OTHER_PLAYER) {
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_UP -> moveFirstPlayer(true);
                 case KeyEvent.VK_DOWN -> moveFirstPlayer(false);

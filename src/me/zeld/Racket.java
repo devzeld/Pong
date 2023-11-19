@@ -2,86 +2,44 @@ package me.zeld;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Racket extends JPanel implements KeyListener {
-    private final int XPOS;
+public class Racket extends JPanel {
+    private int XPOS;
     private int YPOS;
     private final int YSIZE;
     private final int XSIZE;
-    private int YPOS_SECOND_PLAYER;
-    private final int XPOS_SECOND_PLAYER;
-    private final Board B;
-    private final boolean IS_OTHER_PLAYER;
-    Racket(Board b, int xPos, boolean thereIsAntherPlayer){
+    private final int RACKET_SPEED = 10;
+    private final PongBoard B;
+
+    Racket(PongBoard b, boolean isHuman, boolean left) {
         B = b;
         YSIZE = B.getSCREEN_HEIGHT() / 5;
         XSIZE = 15;
-        XPOS = xPos;
-        YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
-        YPOS_SECOND_PLAYER = YPOS;
-        XPOS_SECOND_PLAYER = B.getSCREEN_WIDTH() - XPOS - XSIZE;
-        IS_OTHER_PLAYER = thereIsAntherPlayer;
+        XPOS = 10;
 
-        setBackground(new Color(0xC5C53A));
-        addRackets();
-    }
-
-    private void addRackets(){
-        if(IS_OTHER_PLAYER) {
-            setLocation(XPOS, YPOS);
-        }else{
-            setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
-        }
-        setSize(XSIZE,YSIZE);
+        setBackground(new Color(0x000020));
+        addRackets(left);
         B.add(this);
     }
-    private void moveFirstPlayer(boolean isUp){
-        if(isUp){
-            if(YPOS > 0){
-                YPOS -= 10;
+
+    private void addRackets(boolean left) {
+        YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
+        XPOS = left ? 10 : B.getSCREEN_WIDTH() - XSIZE - 10;
+
+        setSize(XSIZE, YSIZE);
+        setLocation(XPOS, YPOS);
+    }
+
+    public void moveRacket(boolean moveUp) {
+        if (moveUp) {
+            if (YPOS > 0) {
+                YPOS -= RACKET_SPEED;
             }
-        }else{
-            if(YPOS + YSIZE < B.getSCREEN_HEIGHT()){
-                YPOS += 10;
+        } else {
+            if (YPOS + YSIZE < B.getSCREEN_HEIGHT()) {
+                YPOS += RACKET_SPEED;
             }
         }
         setLocation(XPOS, YPOS);
-    }
-    private void moveSecondPlayer(boolean isUp){
-        if(isUp){
-            if(YPOS_SECOND_PLAYER > 0){
-                YPOS_SECOND_PLAYER -= 10;
-            }
-        }else{
-            if(YPOS_SECOND_PLAYER + YSIZE < B.getSCREEN_HEIGHT()){
-                YPOS_SECOND_PLAYER += 10;
-            }
-        }
-        setLocation(XPOS_SECOND_PLAYER,YPOS_SECOND_PLAYER);
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(IS_OTHER_PLAYER) {
-            switch(e.getKeyCode()) {
-                case KeyEvent.VK_UP -> moveFirstPlayer(true);
-                case KeyEvent.VK_DOWN -> moveFirstPlayer(false);
-            }
-        }else{
-            switch(e.getKeyCode()) {
-                case KeyEvent.VK_W -> moveSecondPlayer(true);
-                case KeyEvent.VK_S -> moveSecondPlayer(false);
-            }
-        }
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }

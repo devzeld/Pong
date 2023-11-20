@@ -45,6 +45,7 @@ public class PongBoard extends JFrame {
         return SCREEN_WIDTH;
     }
 
+    //check if the ball collides with one of the rackets
     public boolean checkCollisionWithRackets() {
         //Ball collides on one of the rackets
         Rectangle rec1Racket = racket1.getBounds();
@@ -53,13 +54,13 @@ public class PongBoard extends JFrame {
         return rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket);
     }
 
-/*
+
     enum DIFFICULTY {
         LOW,
         MEDIUM,
         HIGH
     }
-*/
+
 
     public class RacketsMovements extends KeyAdapter {
         @Override

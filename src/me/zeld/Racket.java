@@ -8,17 +8,17 @@ public class Racket extends JPanel {
     private int YPOS;
     private final int YSIZE;
     private final int XSIZE;
-    private final int RACKET_SPEED = 10;
+    private final int RACKET_SPEED = 15;
     private final PongBoard B;
 
-    Racket(PongBoard b, boolean isHuman, boolean left) {
+    Racket(PongBoard b, boolean isHuman, boolean isLeft) {
         B = b;
         YSIZE = B.getSCREEN_HEIGHT() / 5;
         XSIZE = 15;
         XPOS = 10;
 
         setBackground(new Color(0x000020));
-        addRackets(left);
+        addRackets(isLeft);
         B.add(this);
     }
 

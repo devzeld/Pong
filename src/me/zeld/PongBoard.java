@@ -34,7 +34,7 @@ public class PongBoard extends JFrame {
         setVisible(true);
         pack();
 
-        pong.startMoving();
+        pong.startBallMoving();
     }
 
     public int getSCREEN_HEIGHT() {
@@ -53,11 +53,13 @@ public class PongBoard extends JFrame {
         return rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket);
     }
 
-/*    enum DIFFICULTY {
+/*
+    enum DIFFICULTY {
         LOW,
         MEDIUM,
         HIGH
-    }*/
+    }
+*/
 
     public class RacketsMovements extends KeyAdapter {
         @Override

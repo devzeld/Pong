@@ -12,7 +12,7 @@ public class PongBoard extends JFrame {
     private final Racket racket1;
     private final Racket racket2;
 
-    PongBoard(int width, int height) {
+    public PongBoard(int width, int height) {
         SCREEN_HEIGHT = height;
         SCREEN_WIDTH = width;
 
@@ -36,13 +36,11 @@ public class PongBoard extends JFrame {
 
         pong.startBallMoving();
     }
-
     enum DIFFICULTY {
         LOW,
         MEDIUM,
-        HIGH
+        HIGH;
     }
-
     public int getSCREEN_HEIGHT() {
         return SCREEN_HEIGHT;
     }
@@ -67,6 +65,7 @@ public class PongBoard extends JFrame {
                 case KeyEvent.VK_DOWN -> racket2.moveRacket(false);
                 case KeyEvent.VK_W -> racket1.moveRacket(true);
                 case KeyEvent.VK_S -> racket1.moveRacket(false);
+                case KeyEvent.VK_ESCAPE -> System.exit(69);
             }
         }
     }

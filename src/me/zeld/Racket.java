@@ -8,13 +8,13 @@ public class Racket extends JPanel {
     private int YPOS;
     private final int YSIZE;
     private final int XSIZE;
-    private final int RACKET_SPEED = 15;
+    private final int RACKET_SPEED = 10;
     private final PongBoard B;
 
-    Racket(PongBoard b, boolean isHuman, boolean isLeft) {
+    public Racket(PongBoard b, boolean isHuman, boolean isLeft) {
         B = b;
         YSIZE = B.getSCREEN_HEIGHT() / 5;
-        XSIZE = 5;
+        XSIZE = 15;
         XPOS = 10;
 
         setBackground(new Color(0x000020));
@@ -22,7 +22,6 @@ public class Racket extends JPanel {
         B.add(this);
     }
 
-    //add the racket to the board B
     private void addRackets(boolean left) {
         YPOS = (B.getSCREEN_HEIGHT() / 2) - (YSIZE / 2);
         XPOS = left ? 10 : B.getSCREEN_WIDTH() - XSIZE - 10;
@@ -31,14 +30,13 @@ public class Racket extends JPanel {
         setLocation(XPOS, YPOS);
     }
 
-    //set the condition to move the rackets
     public void moveRacket(boolean moveUp) {
         if (moveUp) {
-            if (YPOS > 0) {
+            if (YPOS - 10 > 0) {
                 YPOS -= RACKET_SPEED;
             }
         } else {
-            if (YPOS + YSIZE < B.getSCREEN_HEIGHT()) {
+            if (YPOS + YSIZE + 10 < B.getSCREEN_HEIGHT()) {
                 YPOS += RACKET_SPEED;
             }
         }

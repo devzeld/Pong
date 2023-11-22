@@ -2,41 +2,54 @@ package me.zeld;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class PongBall extends JPanel {
     private int XPOS;
     private int YPOS;
     private final int SIZE;
-    private final int BALL_SPEED = 7;
-    private final int DIRECTION = 30;
-    private int directionX= (int) (Math.cos(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
-    private int directionY= (int) (Math.sin(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
-    private int POINTS_FIRST_PLAYER;
-    private int POINTS_SECOND_PLAYER;
+    private double BALL_SPEED = 8;
+    private int directionX;
+    private int directionY;
+    private int POINTS_FIRST_PLAYER = 0;
+    private int POINTS_SECOND_PLAYER = 0;
     private final PongBoard B;
 
-    PongBall(PongBoard b, int size) {
+    public PongBall(PongBoard b, int size) {
         B = b;
         SIZE = size;
         Color COLOR = new Color(0x000020);
 
         setBackground(COLOR);
-        setToCenter();
+        setToCenter(true);
         setBounds(XPOS, YPOS, SIZE, SIZE);
         b.add(this);
     }
 
-    //need to set centered the pong ball
-    private void setToCenter() {
+    private void setToCenter(boolean turnLeft) {
         XPOS = (B.getSCREEN_WIDTH() / 2) - SIZE;
         YPOS = (B.getSCREEN_HEIGHT() / 2) - SIZE;
 
-        directionX = (int) (Math.cos(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
-        directionY = (int) (Math.sin(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
+        randomizeBall(turnLeft);
+        System.out.printf("| 1: %s | 2: %s |", POINTS_FIRST_PLAYER, POINTS_SECOND_PLAYER);
+        try {
+            TimeUnit.MILLISECONDS.sleep(50);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.printf("\r");
     }
 
-    //need to update the position of the pong ball
+    public void randomizeBall(boolean turnLeft){
+        Random r = new Random();
+        int randXDirection = turnLeft ? r.nextInt(30, 90) : r.nextInt(180, 240);
+        int randYDirection = turnLeft ? 90 : 180;
+
+        directionX = (int) (Math.cos(randXDirection * (360 / Math.TAU)) * BALL_SPEED);
+        directionY = (int) (Math.sin(randYDirection * (360 / Math.TAU)) * BALL_SPEED);
+    }
+
     public void startBallMoving() {
         while (true) {
             updateDirection();
@@ -48,10 +61,7 @@ public class PongBall extends JPanel {
         }
     }
 
-    //need set the direction and the speed of the ball
-    //set the rebound for the direction too
     private void updateDirection() {
-
         /*
         //TODO: Future untouchable ability...
         if(checkCollisionWithRackets()){
@@ -60,23 +70,34 @@ public class PongBall extends JPanel {
             setLocation(XPOS, YPOS);
         }
         */
-
-
-        if (B.getRacket1().getBounds().intersects(B.getPong().getBounds()) || B.getRacket2().getBounds().intersects(B.getPong().getBounds())){
+        if (B.getRacket1().getBounds().intersects(B.getPong().getBounds()) || B.getRacket2().getBounds().intersects(B.getPong().getBounds())) {
             directionX = -(directionX);
+            BALL_SPEED += 0.0015;
         }
-
-        if (!(YPOS > 0 && YPOS < B.getSCREEN_HEIGHT() - SIZE)){
+        if (!(YPOS >= 0 && YPOS <= B.getSCREEN_HEIGHT() - SIZE)){
             directionY = -(directionY);
         }
-
-        if (!(XPOS > 0 && XPOS < B.getSCREEN_WIDTH() - SIZE)) {
-            setToCenter();
+        if (!(XPOS >= 0 && XPOS <= B.getSCREEN_WIDTH() - SIZE)) {
+            if (!(XPOS >= 0)) {
+                POINTS_SECOND_PLAYER += 1;
+                setToCenter(true);
+            }
+            if (!(XPOS <= B.getSCREEN_WIDTH() - SIZE)) {
+                POINTS_FIRST_PLAYER += 1;
+                setToCenter(false);
+            }
         }
 
         XPOS += directionX;
         YPOS += directionY;
-
         setLocation(XPOS, YPOS);
+    }
+
+    public int getPOINTS_FIRST_PLAYER() {
+        return POINTS_FIRST_PLAYER;
+    }
+
+    public int getPOINTS_SECOND_PLAYER() {
+        return POINTS_SECOND_PLAYER;
     }
 }

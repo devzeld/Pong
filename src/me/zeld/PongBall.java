@@ -70,12 +70,14 @@ public class PongBall extends JPanel {
             setLocation(XPOS, YPOS);
         }
         */
+
         if (B.getRacket1().getBounds().intersects(B.getPong().getBounds()) || B.getRacket2().getBounds().intersects(B.getPong().getBounds())) {
             directionX = -(directionX);
             BALL_SPEED += 0.0015;
         }
         if (!(YPOS >= 0 && YPOS <= B.getSCREEN_HEIGHT() - SIZE)){
             directionY = -(directionY);
+            BALL_SPEED += 0.0015;
         }
         if (!(XPOS >= 0 && XPOS <= B.getSCREEN_WIDTH() - SIZE)) {
             if (!(XPOS >= 0)) {

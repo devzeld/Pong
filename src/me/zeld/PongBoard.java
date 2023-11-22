@@ -37,31 +37,28 @@ public class PongBoard extends JFrame {
         pong.startBallMoving();
     }
 
-    public int getSCREEN_HEIGHT() {
-        return SCREEN_HEIGHT;
-    }
-
-    public int getSCREEN_WIDTH() {
-        return SCREEN_WIDTH;
-    }
-
-    //check if the ball collides with one of the rackets
-    public boolean checkCollisionWithRackets() {
-        //Ball collides on one of the rackets
-        Rectangle rec1Racket = racket1.getBounds();
-        Rectangle rec2Racket = racket2.getBounds();
-        Rectangle pongRacket = pong.getBounds();
-        return rec1Racket.intersects(pongRacket) || rec2Racket.intersects(pongRacket);
-    }
-
-
     enum DIFFICULTY {
         LOW,
         MEDIUM,
         HIGH
     }
 
+    public int getSCREEN_HEIGHT() {
+        return SCREEN_HEIGHT;
+    }
+    public int getSCREEN_WIDTH() {
+        return SCREEN_WIDTH;
+    }
 
+    public PongBall getPong() {
+        return pong;
+    }
+    public Racket getRacket1() {
+        return racket1;
+    }
+    public Racket getRacket2() {
+        return racket2;
+    }
     public class RacketsMovements extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -71,7 +68,6 @@ public class PongBoard extends JFrame {
                 case KeyEvent.VK_W -> racket1.moveRacket(true);
                 case KeyEvent.VK_S -> racket1.moveRacket(false);
             }
-            checkCollisionWithRackets();
         }
     }
 }

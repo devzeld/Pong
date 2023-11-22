@@ -14,7 +14,7 @@ public class Racket extends JPanel {
     Racket(PongBoard b, boolean isHuman, boolean isLeft) {
         B = b;
         YSIZE = B.getSCREEN_HEIGHT() / 5;
-        XSIZE = 15;
+        XSIZE = 5;
         XPOS = 10;
 
         setBackground(new Color(0x000020));

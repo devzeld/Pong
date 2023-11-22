@@ -9,7 +9,9 @@ public class PongBall extends JPanel {
     private int YPOS;
     private final int SIZE;
     private final int BALL_SPEED = 7;
-    private final int DIRECTION = 180;
+    private final int DIRECTION = 30;
+    private int directionX= (int) (Math.cos(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
+    private int directionY= (int) (Math.sin(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
     private int POINTS_FIRST_PLAYER;
     private int POINTS_SECOND_PLAYER;
     private final PongBoard B;
@@ -23,22 +25,21 @@ public class PongBall extends JPanel {
         setToCenter();
         setBounds(XPOS, YPOS, SIZE, SIZE);
         b.add(this);
-
     }
 
     //need to set centered the pong ball
     private void setToCenter() {
         XPOS = (B.getSCREEN_WIDTH() / 2) - SIZE;
         YPOS = (B.getSCREEN_HEIGHT() / 2) - SIZE;
+
+        directionX = (int) (Math.cos(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
+        directionY = (int) (Math.sin(DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
     }
 
     //need to update the position of the pong ball
     public void startBallMoving() {
         while (true) {
-            getDirectionAndSpeed(B.checkCollisionWithRackets(), false);
-            if (!(XPOS + SIZE > 0 && XPOS < B.getSCREEN_WIDTH() - SIZE)) {
-                setToCenter();
-            }
+            updateDirection();
             try {
                 TimeUnit.MILLISECONDS.sleep(20);
             } catch (InterruptedException e) {
@@ -49,24 +50,33 @@ public class PongBall extends JPanel {
 
     //need set the direction and the speed of the ball
     //set the rebound for the direction too
-    private void getDirectionAndSpeed(boolean racketRebound, boolean screenRebound) {
-        final int cos = (int) (Math.cos(DIRECTION / (360 * Math.PI)) * BALL_SPEED);
-        final int sin = (int) (Math.sin(DIRECTION / (360 * Math.PI)) * BALL_SPEED);
-        final int reversedSin = (int) (Math.sin(-DIRECTION / (360 * Math.PI)) * BALL_SPEED);
-        final int reversedCos = (int) (Math.cos(-DIRECTION / (360 * Math.PI)) * BALL_SPEED);
+    private void updateDirection() {
 
-        XPOS += cos + sin;
+        /*
+        //TODO: Future untouchable ability...
+        if(checkCollisionWithRackets()){
+            XPOS -= (int) (Math.cos(- DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
+            YPOS -= (int) (Math.sin(- DIRECTION * (360 / Math.TAU)) * BALL_SPEED);
+            setLocation(XPOS, YPOS);
+        }
+        */
 
-        setLocation(XPOS, YPOS);
 
+        if (B.getRacket1().getBounds().intersects(B.getPong().getBounds()) || B.getRacket2().getBounds().intersects(B.getPong().getBounds())){
+            directionX = -(directionX);
+        }
 
-        if (!(XPOS + SIZE > 0 && XPOS < B.getSCREEN_WIDTH() - SIZE)) {
+        if (!(YPOS > 0 && YPOS < B.getSCREEN_HEIGHT() - SIZE)){
+            directionY = -(directionY);
+        }
+
+        if (!(XPOS > 0 && XPOS < B.getSCREEN_WIDTH() - SIZE)) {
             setToCenter();
         }
 
-        /*
-        YPOS += (int) sin;
-        YPOS += (int) cos;
-        */
+        XPOS += directionX;
+        YPOS += directionY;
+
+        setLocation(XPOS, YPOS);
     }
 }

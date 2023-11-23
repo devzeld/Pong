@@ -35,6 +35,7 @@ public class PongBoard extends JFrame {
         pack();
 
         pong.startBallMoving();
+
     }
     enum DIFFICULTY {
         LOW,

@@ -19,7 +19,7 @@ public class PongBall extends JPanel {
     public PongBall(PongBoard b, int size) {
         B = b;
         SIZE = size;
-        Color COLOR = new Color(0x000020);
+        Color COLOR = new Color(0x19B287);
 
         setBackground(COLOR);
         setToCenter(true);
@@ -32,6 +32,7 @@ public class PongBall extends JPanel {
         YPOS = (B.getSCREEN_HEIGHT() / 2) - SIZE;
 
         randomizeBall(turnLeft);
+
         System.out.printf("| 1: %s | 2: %s |", POINTS_FIRST_PLAYER, POINTS_SECOND_PLAYER);
         try {
             TimeUnit.MILLISECONDS.sleep(50);
@@ -44,7 +45,7 @@ public class PongBall extends JPanel {
     public void randomizeBall(boolean turnLeft){
         Random r = new Random();
         int randXDirection = turnLeft ? r.nextInt(30, 90) : r.nextInt(180, 240);
-        int randYDirection = turnLeft ? 90 : 180;
+        int randYDirection = turnLeft ? r.nextInt(130, 170) : r.nextInt(10, 80);
 
         directionX = (int) (Math.cos(randXDirection * (360 / Math.TAU)) * BALL_SPEED);
         directionY = (int) (Math.sin(randYDirection * (360 / Math.TAU)) * BALL_SPEED);
@@ -73,11 +74,11 @@ public class PongBall extends JPanel {
 
         if (B.getRacket1().getBounds().intersects(B.getPong().getBounds()) || B.getRacket2().getBounds().intersects(B.getPong().getBounds())) {
             directionX = -(directionX);
-            BALL_SPEED += 0.0015;
+            BALL_SPEED += 0.02;
         }
         if (!(YPOS >= 0 && YPOS <= B.getSCREEN_HEIGHT() - SIZE)){
             directionY = -(directionY);
-            BALL_SPEED += 0.0015;
+            BALL_SPEED += 0.05;
         }
         if (!(XPOS >= 0 && XPOS <= B.getSCREEN_WIDTH() - SIZE)) {
             if (!(XPOS >= 0)) {

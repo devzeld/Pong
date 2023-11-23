@@ -42,4 +42,23 @@ public class Racket extends JPanel {
         }
         setLocation(XPOS, YPOS);
     }
+    public int getXPOS() {
+        return XPOS;
+    }
+
+    public int getYPOS() {
+        return YPOS;
+    }
+
+    public int getYSIZE() {
+        return YSIZE;
+    }
+
+    public int getXSIZE() {
+        return XSIZE;
+    }
+
+    public int getRACKET_SPEED() {
+        return RACKET_SPEED;
+    }
 }
